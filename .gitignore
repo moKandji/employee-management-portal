@@ -1,0 +1,82 @@
+############################
+# GLOBAL
+############################
+*.log
+*.tmp
+*.temp
+*.swp
+*.bak
+*.cache
+*.user
+*.suo
+*.userosscache
+*.userprefs
+*.pid
+*.seed
+*.DS_Store
+Thumbs.db
+
+############################
+# ENV / SECRETS
+############################
+.env
+.env.*
+!*.example
+
+############################
+# .NET / Visual Studio
+############################
+**/bin/
+**/obj/
+**/.vs/
+**/*.user
+**/*.suo
+**/*.cache
+**/*.log
+
+# Rider / VSCode
+**/.idea/
+**/.vscode/
+!.vscode/extensions.json
+
+############################
+# ASP.NET Core
+############################
+**/appsettings.Development.json
+**/appsettings.Local.json
+**/secrets.json
+
+############################
+# Angular / Node
+############################
+**/node_modules/
+**/dist/
+**/.angular/
+**/npm-debug.log*
+**/yarn-debug.log*
+**/yarn-error.log*
+
+############################
+# Angular environments
+############################
+**/src/environments/environment*.ts
+!**/src/environments/environment.example.ts
+
+############################
+# Build / Publish
+############################
+**/publish/
+**/out/
+**/*.zip
+**/*.tar.gz
+
+############################
+# Tests / Coverage
+############################
+**/coverage/
+**/TestResults/
+
+############################
+# Docker
+############################
+**/.dockerignore
