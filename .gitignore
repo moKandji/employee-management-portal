@@ -17,11 +17,10 @@
 Thumbs.db
 
 ############################
-# ENV / SECRETS
+# ENV 
 ############################
 .env
 .env.*
-!*.example
 
 ############################
 # .NET / Visual Studio
@@ -34,7 +33,7 @@ Thumbs.db
 **/*.cache
 **/*.log
 
-# Rider / VSCode
+# VSCode
 **/.idea/
 **/.vscode/
 !.vscode/extensions.json
