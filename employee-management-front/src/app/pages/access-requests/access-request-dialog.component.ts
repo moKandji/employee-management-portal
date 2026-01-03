@@ -67,19 +67,21 @@ import { MatButtonModule } from '@angular/material/button';
   `
 })
 export class AccessRequestDialogComponent {
-  form = this.fb.group({
-    employeeId: ['', Validators.required],
-    requestType: ['SystemAccess', Validators.required],
-    priority: ['Medium', Validators.required],
-    status: ['Draft', Validators.required],
-    comment: ['']
-  });
+  form;
 
   constructor(
     private readonly fb: FormBuilder,
     public readonly dialogRef: MatDialogRef<AccessRequestDialogComponent>,
     @Inject(MAT_DIALOG_DATA) public data: { request?: any; employees: any[] }
   ) {
+    this.form = this.fb.group({
+      employeeId: ['', Validators.required],
+      requestType: ['SystemAccess', Validators.required],
+      priority: ['Medium', Validators.required],
+      status: ['Draft', Validators.required],
+      comment: ['']
+    });
+
     if (data?.request) {
       this.form.patchValue(data.request);
     }
