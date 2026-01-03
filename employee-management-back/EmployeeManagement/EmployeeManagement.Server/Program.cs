@@ -1,21 +1,24 @@
 using System.Text;
 using EmployeeManagement.Application.Services;
 using EmployeeManagement.Infrastructure.Extensions;
+using EmployeeManagement.Infrastructure.Persistence;
 using EmployeeManagement.Infrastructure.Seeding;
 using EmployeeManagement.Server.Auth;
 using EmployeeManagement.Server.Middleware;
+using FluentValidation;
 using FluentValidation.AspNetCore;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.IdentityModel.Tokens;
 using Microsoft.OpenApi.Models;
 
 var builder = WebApplication.CreateBuilder(args);
 
-builder.Services.AddControllers()
-    .AddFluentValidation(config =>
-    {
-        config.RegisterValidatorsFromAssemblyContaining<EmployeeManagement.Application.Validators.EmployeeCreateDtoValidator>();
-    });
+builder.Services.AddControllers();
+
+builder.Services.AddFluentValidationAutoValidation();
+builder.Services.AddFluentValidationClientsideAdapters();
+builder.Services.AddValidatorsFromAssemblyContaining<EmployeeManagement.Application.Validators.EmployeeCreateDtoValidator>();
 
 builder.Services.AddScoped<AuthService>();
 
@@ -81,6 +84,12 @@ builder.Services.AddSwaggerGen(c =>
 
 builder.Services.AddProblemDetails();
 
+builder.Services.AddDbContext<EmployeeManagementDbContext>(options =>
+    options.UseSqlServer(
+        builder.Configuration.GetConnectionString("EmployeeManagement"),
+        sqlOptions => sqlOptions.EnableRetryOnFailure(5, TimeSpan.FromSeconds(10), null)
+    ));
+
 var app = builder.Build();
 
 app.UseMiddleware<ProblemDetailsMiddleware>();
@@ -93,6 +102,22 @@ if (app.Environment.IsDevelopment())
     app.UseSwaggerUI();
 
     using var scope = app.Services.CreateScope();
+    var db = scope.ServiceProvider.GetRequiredService<EmployeeManagementDbContext>();
+
+    // Appliquer les migrations si elles existent, sinon créer la BDD en dev
+    var availableMigrations = db.Database.GetMigrations();
+    if (!availableMigrations.Any())
+    {
+        // Pas de migrations dans l'assembly : créer la BDD directement (uniquement en développement)
+        db.Database.EnsureCreated();
+        Console.WriteLine("Database created with EnsureCreated() because no migrations were found.");
+    }
+    else
+    {
+        db.Database.Migrate(); // applique les migrations existantes
+        Console.WriteLine("Applied pending migrations.");
+    }
+
     var seeder = scope.ServiceProvider.GetRequiredService<DevelopmentDataSeeder>();
     await seeder.SeedAsync(CancellationToken.None);
 }

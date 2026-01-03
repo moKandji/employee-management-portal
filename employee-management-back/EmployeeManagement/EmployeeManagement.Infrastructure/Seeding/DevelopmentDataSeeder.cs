@@ -16,6 +16,18 @@ public class DevelopmentDataSeeder
 
     public async Task SeedAsync(CancellationToken cancellationToken)
     {
+        var pending = _dbContext.Database.GetPendingMigrations();
+        if (pending.Any())
+        {
+            _dbContext.Database.Migrate();
+            Console.WriteLine("Applied pending migrations.");
+        }
+        else if (!_dbContext.Database.CanConnect())
+        {
+            _dbContext.Database.EnsureCreated();
+            Console.WriteLine("Database created with EnsureCreated().");
+        }
+
         if (await _dbContext.Departments.AnyAsync(cancellationToken))
         {
             return;
