@@ -1,4 +1,6 @@
 import { Component, OnInit } from '@angular/core';
+import { DestroyRef, inject } from '@angular/core';
+import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import { MatTableModule } from '@angular/material/table';
 import { MatButtonModule } from '@angular/material/button';
 import { MatIconModule } from '@angular/material/icon';
@@ -56,6 +58,7 @@ import { ConfirmDialogComponent } from '../../shared/confirm-dialog.component';
   `
 })
 export class DepartmentsComponent implements OnInit {
+  private readonly destroyRef = inject(DestroyRef);
   columns = ['name', 'actions'];
   departments: any[] = [];
   total = 0;
@@ -115,14 +118,11 @@ export class DepartmentsComponent implements OnInit {
 
   private loadDepartments() {
     this.api
-      .get<any>('/departments', {
-        page: this.page,
-        pageSize: this.pageSize,
-        q: this.query
-      })
+      .get<any>('/departments', { page: this.page, pageSize: this.pageSize, q: this.query })
+      .pipe(takeUntilDestroyed(this.destroyRef))
       .subscribe(result => {
-        this.departments = result.items;
-        this.total = result.totalCount;
+        this.departments = result.items ?? [];
+        this.total = result.totalCount ?? 0;
       });
   }
 }

@@ -1,4 +1,6 @@
 import { Component, OnInit } from '@angular/core';
+import { DestroyRef, inject } from '@angular/core';
+import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import { MatTableModule } from '@angular/material/table';
 import { MatButtonModule } from '@angular/material/button';
 import { MatIconModule } from '@angular/material/icon';
@@ -72,7 +74,8 @@ import { ConfirmDialogComponent } from '../../shared/confirm-dialog.component';
   `
 })
 export class AccessRequestsComponent implements OnInit {
-  columns = ['employee', 'type', 'priority', 'status', 'actions'];
+  private readonly destroyRef = inject(DestroyRef);
+    columns = ['employee', 'type', 'priority', 'status', 'actions'];
   requests: any[] = [];
   employees: any[] = [];
   total = 0;
@@ -146,20 +149,20 @@ export class AccessRequestsComponent implements OnInit {
 
   private loadRequests() {
     this.api
-      .get<any>('/accessrequests', {
-        page: this.page,
-        pageSize: this.pageSize,
-        q: this.query
-      })
+      .get<any>('/accessrequests', { page: this.page, pageSize: this.pageSize, q: this.query })
+      .pipe(takeUntilDestroyed(this.destroyRef))
       .subscribe(result => {
-        this.requests = result.items;
-        this.total = result.totalCount;
+        this.requests = result.items ?? [];
+        this.total = result.totalCount ?? 0;
       });
   }
 
   private loadEmployees() {
-    this.api.get<any>('/employees', { page: 1, pageSize: 200 }).subscribe(result => {
-      this.employees = result.items;
-    });
+    this.api
+      .get<any>('/employees', { page: 1, pageSize: 200 })
+      .pipe(takeUntilDestroyed(this.destroyRef))
+      .subscribe(result => {
+        this.employees = result.items ?? [];
+      });
   }
 }

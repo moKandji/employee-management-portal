@@ -9,5 +9,5 @@ declare global {
 }
 
 export const appConfig: AppConfig = window.APP_CONFIG ?? {
-  apiBaseUrl: 'http://localhost:7057/api/v1'
+  apiBaseUrl: 'http://localhost:5286/api/v1'
 };

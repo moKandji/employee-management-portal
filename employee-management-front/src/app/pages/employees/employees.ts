@@ -1,4 +1,5 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, DestroyRef, inject } from '@angular/core';
+import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import { MatTableModule } from '@angular/material/table';
 import { MatPaginatorModule, PageEvent } from '@angular/material/paginator';
 import { MatButtonModule } from '@angular/material/button';
@@ -68,6 +69,7 @@ import { ConfirmDialogComponent } from '../../shared/confirm-dialog.component';
   `
 })
 export class EmployeesComponent implements OnInit {
+  private readonly destroyRef = inject(DestroyRef);
   columns = ['name', 'email', 'department', 'status', 'actions'];
   employees: any[] = [];
   departments: { id: string; name: string }[] = [];
@@ -129,20 +131,20 @@ export class EmployeesComponent implements OnInit {
 
   private loadEmployees() {
     this.api
-      .get<any>('/employees', {
-        page: this.page,
-        pageSize: this.pageSize,
-        q: this.query
-      })
+      .get<any>('/employees', { page: this.page, pageSize: this.pageSize, q: this.query })
+      .pipe(takeUntilDestroyed(this.destroyRef))
       .subscribe(result => {
-        this.employees = result.items;
-        this.total = result.totalCount;
+        this.employees = result.items ?? [];
+        this.total = result.totalCount ?? 0;
       });
   }
 
   private loadDepartments() {
-    this.api.get<any>('/departments', { page: 1, pageSize: 100 }).subscribe(result => {
-      this.departments = result.items;
-    });
+    this.api
+      .get<any>('/departments', { page: 1, pageSize: 100 })
+      .pipe(takeUntilDestroyed(this.destroyRef))
+      .subscribe(result => {
+        this.departments = result.items ?? [];
+      });
   }
 }
