@@ -1,139 +1,33 @@
-# Employee Management Portal / Portail de gestion des employés
+# Employee Management Portal
 
 ## English
 
-### Overview
-A pragmatic, full-stack application for managing employees, departments, and access requests. It showcases enterprise-ready CRUD, audit trail fields, simple workflow management, JWT authentication, and a KPI dashboard suitable for banking, insurance, private, and public sector contexts.
+A **full-stack .NET / Angular project** that showcases my way of designing, structuring, and implementing an **enterprise-ready application**.
 
-### Features
-- Employee, Department, and Access Request CRUD
-- Role-based access control (Admin, Manager, Viewer)
-- Workflow transitions for access requests
-- Audit trail fields (CreatedAt, UpdatedAt, UpdatedBy)
-- KPI dashboard (active employees, pending requests, status counts)
-- Clean Architecture backend (Domain, Application, Infrastructure, Server)
-- Angular standalone components with Angular Material
-- Dockerized SQL Server, API, and frontend
+This project reflects:
 
-### Tech Stack
-- Backend: ASP.NET Core Web API (.NET 8), EF Core, SQL Server, FluentValidation, JWT
-- Frontend: Angular (standalone), Angular Material, Reactive Forms
-- DevOps: Docker, GitHub Actions
+- **My Clean Architecture approach** on the backend (.NET 8)
+- **My use of Angular standalone components** and Angular Material
+- A pragmatic focus on **maintainability, scalability, and clarity**
 
-### Quick Start (Docker)
-```bash
-cp .env.example .env
-docker compose up --build
-```
+It includes real-world features such as **CRUD operations, role-based access, workflow states, audit fields, and a KPI dashboard** — representative of applications found in **banking, insurance, private and public-sector environments**.
 
-Open:
-- API: http://localhost:5000/swagger (development)
-- Frontend: http://localhost:4200
-
-### Local Development
-Backend:
-```bash
-cd backend
-# Apply migrations manually in your environment if needed
-# dotnet ef database update --project src/EmployeeManagement.Infrastructure --startup-project src/EmployeeManagement.Server
-
-dotnet restore EmployeeManagement.sln
-dotnet run --project src/EmployeeManagement.Server
-```
-
-Frontend:
-```bash
-cd frontend
-npm install
-npm start
-```
-
-### Demo Users
-- admin / Password123! (Admin)
-- manager / Password123! (Manager)
-- viewer / Password123! (Viewer)
-
-### API Base Path
-All endpoints are available under `/api/v1`.
-
-### Clean Architecture Overview
-```
-EmployeeManagement
-├── Domain
-├── Application
-├── Infrastructure
-└── Server
-```
-
-### Screenshots
-Place screenshots in `/docs/screenshots`.
+### Tech stack
+**ASP.NET Core · EF Core · SQL Server · Angular · Docker**
 
 ---
 
 ## Français
 
-### Aperçu
-Une application full-stack pragmatique qui permet de gérer des employés, des départements et les demandes d'accès. Elle démontre des compétences d'entreprise : CRUD, audit, workflow simple, authentification JWT et tableau de bord KPI — utile pour les secteurs bancaire, assurance, privé et public.
+Un **projet full-stack .NET / Angular** qui met en évidence ma manière de **concevoir, structurer et développer une application professionnelle**.
 
-### Fonctionnalités
-- CRUD pour employés, départements et demandes d'accès
-- Contrôle d'accès basé sur les rôles (Admin, Manager, Viewer)
-- Transitions de workflow pour les demandes d'accès
-- Champs d'audit (CreatedAt, UpdatedAt, UpdatedBy)
-- Tableau de bord KPI (employés actifs, demandes en attente, statuts)
-- Backend en Clean Architecture (Domain, Application, Infrastructure, Server)
-- Angular avec composants standalone et Angular Material
-- SQL Server, API et frontend via Docker
+Ce projet illustre :
+
+- **Mon approche Clean Architecture** côté backend (.NET 8)
+- **L’utilisation de composants Angular standalone** et d’Angular Material
+- Une attention particulière à la **maintenabilité, la lisibilité et l’évolutivité**
+
+Il intègre des fonctionnalités réalistes (**CRUD, gestion des rôles, workflow, audit, tableau de bord KPI**), typiques des applications utilisées dans les **secteurs bancaire, assurance, privé et public**.
 
 ### Stack technique
-- Backend : ASP.NET Core Web API (.NET 8), EF Core, SQL Server, FluentValidation, JWT
-- Frontend : Angular (standalone), Angular Material, formulaires réactifs
-- DevOps : Docker, GitHub Actions
-
-### Démarrage rapide (Docker)
-```bash
-cp .env.example .env
-docker compose up --build
-```
-
-Ouvrir :
-- API : http://localhost:5000/swagger (développement)
-- Frontend : http://localhost:4200
-
-### Développement local
-Backend :
-```bash
-cd backend
-# Appliquer les migrations si nécessaire
-# dotnet ef database update --project src/EmployeeManagement.Infrastructure --startup-project src/EmployeeManagement.Server
-
-dotnet restore EmployeeManagement.sln
-dotnet run --project src/EmployeeManagement.Server
-```
-
-Frontend :
-```bash
-cd frontend
-npm install
-npm start
-```
-
-### Utilisateurs démo
-- admin / Password123! (Admin)
-- manager / Password123! (Manager)
-- viewer / Password123! (Viewer)
-
-### Base de l'API
-Toutes les routes sont disponibles sous `/api/v1`.
-
-### Aperçu de la Clean Architecture
-```
-EmployeeManagement
-├── Domain
-├── Application
-├── Infrastructure
-└── Server
-```
-
-### Captures d'écran
-Placez les captures dans `/docs/screenshots`.
+**ASP.NET Core · EF Core · SQL Server · Angular · Docker**
