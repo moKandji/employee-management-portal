@@ -1,9 +1,10 @@
 using System.Text;
+using EmployeeManagement.Application.Interfaces.Services;
 using EmployeeManagement.Application.Services;
+using EmployeeManagement.Infrastructure.Auth;
 using EmployeeManagement.Infrastructure.Extensions;
 using EmployeeManagement.Infrastructure.Persistence;
 using EmployeeManagement.Infrastructure.Seeding;
-using EmployeeManagement.Server.Auth;
 using EmployeeManagement.Server.Middleware;
 using FluentValidation;
 using FluentValidation.AspNetCore;
@@ -20,7 +21,7 @@ builder.Services.AddFluentValidationAutoValidation();
 builder.Services.AddFluentValidationClientsideAdapters();
 builder.Services.AddValidatorsFromAssemblyContaining<EmployeeManagement.Application.Validators.EmployeeCreateDtoValidator>();
 
-builder.Services.AddScoped<AuthService>();
+builder.Services.AddScoped<IAuthService, AuthService>();
 
 builder.Services.AddScoped<IEmployeeService, EmployeeService>();
 builder.Services.AddScoped<IDepartmentService, DepartmentService>();

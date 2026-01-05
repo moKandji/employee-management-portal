@@ -1,12 +1,13 @@
 ﻿using System.IdentityModel.Tokens.Jwt;
 using System.Security.Claims;
 using System.Text;
+using EmployeeManagement.Application.DTOs.Auth;
+using EmployeeManagement.Application.Interfaces.Services;
 using Microsoft.Extensions.Configuration;
 using Microsoft.IdentityModel.Tokens;
 
-namespace EmployeeManagement.Server.Auth;
-
-public class AuthService
+namespace EmployeeManagement.Infrastructure.Auth;
+public class AuthService : IAuthService
 {
     private readonly IConfiguration _configuration;
 
